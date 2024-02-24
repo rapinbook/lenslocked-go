@@ -37,6 +37,10 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 	executeTemplate(w, tmlPath)
 }
 
+func faqHandler(w http.ResponseWriter, r *http.Request) {
+	executeTemplate(w, filepath.Join("template", "faq.gohtml"))
+}
+
 func pathHandler(w http.ResponseWriter, r *http.Request) {
 
 	switch r.URL.Path {
@@ -44,6 +48,8 @@ func pathHandler(w http.ResponseWriter, r *http.Request) {
 		homeHandler(w, r)
 	case "/contact":
 		contactHandler(w, r)
+	case "/faq":
+		faqHandler(w, r)
 	default:
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 
@@ -68,6 +74,7 @@ func main() {
 	r := chi.NewRouter()
 	r.Get("/", homeHandler)
 	r.Get("/contact", contactHandler)
+	r.Get("/faq", faqHandler)
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page not found", http.StatusNotFound)
 	})
